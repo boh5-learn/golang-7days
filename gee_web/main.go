@@ -33,5 +33,17 @@ func main() {
 		})
 	})
 
+	v1 := r.Group("/v1")
+	{
+		v1.GET("/hello", func(c *gee.Context) {
+			// expect /hello?name=boh5
+			c.String(http.StatusOK, "hello %s, you're at %s\n", c.Query("name"), c.Path)
+		})
+
+		v1.GET("/hello/:name", func(c *gee.Context) {
+			c.String(http.StatusOK, "hello %s, you're at %s\n", c.Param("name"), c.Path)
+		})
+	}
+
 	log.Fatal(r.Run(":9999"))
 }
