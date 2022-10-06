@@ -1,6 +1,7 @@
 package gee
 
 import (
+	"log"
 	"net/http"
 )
 
@@ -34,6 +35,8 @@ func (e *Engine) POST(pattern string, handler HandlerFunc) {
 
 // Run start a http server
 func (e *Engine) Run(addr string) error {
+	log.Printf("run server: %s", addr)
+
 	return http.ListenAndServe(addr, e)
 }
 
