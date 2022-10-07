@@ -28,6 +28,13 @@ func New() *Engine {
 	return engine
 }
 
+// Default use Logger() & Recovery() middlewares
+func Default() *Engine {
+	engine := New()
+	engine.Use(Logger(), Recovery())
+	return engine
+}
+
 // addRoute add route to Engine.router
 func (e *Engine) addRoute(method, pattern string, handler HandlerFunc) {
 	e.router.addRoute(method, pattern, handler)

@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	r := gee.New()
+	r := gee.Default()
 	r.Use(gee.Logger())
 
 	r.SetFuncMap(template.FuncMap{
@@ -28,6 +28,11 @@ func main() {
 			"title": "Custom Func",
 			"now":   time.Now(),
 		})
+	})
+
+	r.GET("/panic", func(c *gee.Context) {
+		names := []string{"boh5"}
+		c.String(http.StatusOK, names[100])
 	})
 
 	r.GET("/hello", func(c *gee.Context) {
