@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"gee"
+	"html/template"
 	"log"
 	"net/http"
 	"time"
@@ -11,8 +13,21 @@ func main() {
 	r := gee.New()
 	r.Use(gee.Logger())
 
+	r.SetFuncMap(template.FuncMap{
+		"FormatAsDate": FormatAsDate,
+	})
+	r.LoadHTMLGlob("templates/*")
+	r.Static("/assets", "./static")
+
 	r.GET("/", func(c *gee.Context) {
-		c.HTML(http.StatusOK, "<h1>Hello Gee</h1>")
+		c.HTML(http.StatusOK, "css.html", nil)
+	})
+
+	r.GET("/date", func(c *gee.Context) {
+		c.HTML(http.StatusOK, "custom_func.html", gee.H{
+			"title": "Custom Func",
+			"now":   time.Now(),
+		})
 	})
 
 	r.GET("/hello", func(c *gee.Context) {
@@ -22,10 +37,6 @@ func main() {
 
 	r.GET("/hello/:name", func(c *gee.Context) {
 		c.String(http.StatusOK, "hello %s, you're at %s\n", c.Param("name"), c.Path)
-	})
-
-	r.GET("/assets/*filepath", func(c *gee.Context) {
-		c.JSON(http.StatusOK, gee.H{"filepath": c.Param("filepath")})
 	})
 
 	r.POST("/login", func(c *gee.Context) {
@@ -69,4 +80,9 @@ func middlewareForV2() gee.HandlerFunc {
 		c.Fail(http.StatusInternalServerError, "Internal Server Error")
 		log.Printf("[%d] %s in %v for group v2", c.StatusCode, c.Req.RequestURI, time.Since(t))
 	}
+}
+
+func FormatAsDate(t time.Time) string {
+	year, month, day := t.Date()
+	return fmt.Sprintf("%d-%02d-%02d", year, month, day)
 }
