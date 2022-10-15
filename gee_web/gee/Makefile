@@ -7,4 +7,4 @@ tidy:
 test:
 	go test ./...
 
-.PHONY: lint
+.PHONY: lint tidy test
