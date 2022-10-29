@@ -1,4 +1,4 @@
-package geecache
+package consistenthash
 
 import (
 	"hash/crc32"
@@ -20,8 +20,8 @@ type Map struct {
 	hashMap map[int]string
 }
 
-// NewMap returns a Map instance
-func NewMap(replicas int, fn Hash) *Map {
+// New returns a Map instance
+func New(replicas int, fn Hash) *Map {
 	m := &Map{
 		hash:     fn,
 		replicas: replicas,

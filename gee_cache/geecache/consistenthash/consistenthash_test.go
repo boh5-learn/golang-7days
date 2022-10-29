@@ -1,7 +1,7 @@
-package geecache_test
+package consistenthash_test
 
 import (
-	"geecache"
+	"geecache/consistenthash"
 	"strconv"
 	"testing"
 
@@ -11,7 +11,7 @@ import (
 func TestMap(t *testing.T) {
 	t.Parallel()
 
-	hash := geecache.NewMap(3, func(key []byte) uint32 {
+	hash := consistenthash.New(3, func(key []byte) uint32 {
 		i, _ := strconv.Atoi(string(key))
 		return uint32(i)
 	})
