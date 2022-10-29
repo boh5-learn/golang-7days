@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestName(t *testing.T) {
+func TestHttp(t *testing.T) {
 	t.Parallel()
 
 	addr := "localhost:9999"
